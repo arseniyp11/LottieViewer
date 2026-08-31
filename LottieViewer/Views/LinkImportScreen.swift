@@ -18,7 +18,7 @@ struct LinkImportScreen: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 TextField(
-                    "https://drive.google.com/file/d/...",
+                    "Your URL",
                     text: $viewModel.link
                 )
                 .textFieldStyle(.roundedBorder)
