@@ -14,6 +14,8 @@ final class LinkImportViewModel: ObservableObject {
     private let loader = LottieLinkLoader()
     
     func loadAnimation() {
+        guard !isLoading else { return }
+
         guard !link.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             errorMessage = "Введите ссылку на Google Drive"
             return

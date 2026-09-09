@@ -53,11 +53,20 @@ final class LottieLinkLoader: LottieLoading {
         guard let fileID = extractGoogleDriveFileID(from: url) else {
             throw LottieLoaderError.invalidGoogleDriveURL
         }
-        
-        let downloadURL = URL(
-            string: "https://drive.google.com/uc?export=download&id=\(fileID)"
-        )!
-        
+
+        var downloadURLComponents = URLComponents()
+        downloadURLComponents.scheme = "https"
+        downloadURLComponents.host = "drive.google.com"
+        downloadURLComponents.path = "/uc"
+        downloadURLComponents.queryItems = [
+            URLQueryItem(name: "export", value: "download"),
+            URLQueryItem(name: "id", value: fileID)
+        ]
+
+        guard let downloadURL = downloadURLComponents.url else {
+            throw LottieLoaderError.invalidGoogleDriveURL
+        }
+
         let (data, response) = try await URLSession.shared.data(from: downloadURL)
         
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -85,7 +94,7 @@ final class LottieLinkLoader: LottieLoading {
     
     private func extractGoogleDriveFileID(from url: URL) -> String? {
         
-        guard url.host?.contains("drive.google.com") == true else {
+        guard url.host?.lowercased() == "drive.google.com" else {
             return nil
         }
         
