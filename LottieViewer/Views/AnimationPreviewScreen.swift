@@ -189,9 +189,9 @@ struct AnimationPreviewScreen: View {
 
     private var speedRow: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Скорость")
+            Text("Speed")
 
-            Picker("Скорость", selection: $viewModel.speed) {
+            Picker("Speed", selection: $viewModel.speed) {
                 ForEach(viewModel.speedOptions, id: \.self) { option in
                     Text(speedLabel(option)).tag(option)
                 }
